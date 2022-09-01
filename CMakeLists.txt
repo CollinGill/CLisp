@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(CLisp)
+project(Yal)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
@@ -11,4 +11,4 @@ include_directories("src/include/*.h")
 
 file(GLOB SOURCES "src/*.cpp")
 
-add_executable(clisp ${SOURCES})
+add_executable(yal ${SOURCES})
