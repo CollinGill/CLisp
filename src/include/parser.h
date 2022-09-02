@@ -1,8 +1,9 @@
 #pragma once
 
 #include <assert.h>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <unordered_set>
 #include <vector>
 #include "token.h"
 
@@ -20,4 +21,5 @@ public:
 
 private:
     std::vector<Token> token_list;
+    std::unordered_set<char> special_chars;
 };
