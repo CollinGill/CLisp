@@ -1,7 +1,24 @@
 #include <iostream>
 
+#include "./include/parser.h"
+
 int main(int argc, char* argv[])
 {
-    std::cout << "Hello world\n";
+    std::vector<std::string> args {argv, argv + argc};
+    
+    // checking if a yal file was passed as an argument
+    if (argc > 1) {
+        // Interpret code
+        if (argc > 2) {
+            std::cout << "Sorry, Yal only supports single files at this time\n";
+            return -1;
+        } else {
+
+        }
+
+    } else {
+        // Open interpreter shell 
+    }
+
     return 0;
 }
