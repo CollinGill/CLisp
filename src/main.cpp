@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "./include/parser.h"
 
 int main(int argc, char* argv[])
@@ -13,7 +11,8 @@ int main(int argc, char* argv[])
             std::cout << "Sorry, Yal only supports single files at this time\n";
             return -1;
         } else {
-
+            Parser parser = Parser();
+            std::cout << parser.read_file(args.at(1)) << std::endl;
         }
 
     } else {
