@@ -128,6 +128,7 @@ void Parser::tokenize(std::string& file)
                 token::Token tmp { token::Token(token::STRING_LITERAL, file.substr(i, (j-i))) };
                 token_list.push_back(tmp);
 
+                // i = j so that on the next loop it skips the second quote symbol
                 i = j;
                 break;
 
@@ -135,6 +136,7 @@ void Parser::tokenize(std::string& file)
                 token::Token tmp { token::Token(token::WORD, file.substr(i, (j-i))) };
                 token_list.push_back(tmp);
 
+                // i = j - 1 so that the next loop starts on the character that broke the word
                 i = j - 1;
                 break;
             }

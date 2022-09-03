@@ -10,7 +10,6 @@ namespace token
     {
         LPAREN,
         RPAREN,
-        QUOTE,
         STRING_LITERAL,
         INTEGER,
         FLOAT,
@@ -30,10 +29,8 @@ namespace token
         Token(Type type, std::string val);
 
         Type get_type();
-        //std::tuple<int, int> get_location();
 
         void set_type(Type type);
-        //void set_position(int r, int c);
         void set_val(std::string& val);
 
         void print();
@@ -41,7 +38,5 @@ namespace token
     private:
         Type type;
         std::string val;
-        // int row;
-        // int column;
     };
 }
