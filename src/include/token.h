@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <tuple>
 
@@ -17,8 +18,11 @@ namespace token
         MINUS,
         MULTIPLY,
         DIVIDE,
-        MODULO
+        MODULO,
+        WORD
     };
+
+    std::string readable_type(Type type);
 
     class Token
     {
@@ -31,6 +35,8 @@ namespace token
         void set_type(Type type);
         //void set_position(int r, int c);
         void set_val(std::string& val);
+
+        void print();
         
     private:
         Type type;

@@ -13,7 +13,8 @@ int main(int argc, char* argv[])
         } else {
             Parser parser { Parser() };
             std::string file { parser.read_file(args[1]) };
-            parser.parse_file(file);
+            parser.tokenize(file);
+            parser.print_tokens();
         }
 
     } else {

@@ -2,7 +2,6 @@
 
 #include <assert.h>
 #include <fstream>
-#include <iostream>
 #include <unordered_set>
 #include <vector>
 #include "token.h"
@@ -15,9 +14,10 @@ public:
     Parser();
 
     std::string read_file(std::string& file_name);
-    void parse_file(std::string& file);
+    void tokenize(std::string& file);
 
     std::vector<Token> get_token_list();
+    void print_tokens();
 
 private:
     std::vector<Token> token_list;
