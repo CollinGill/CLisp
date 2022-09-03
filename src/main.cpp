@@ -1,4 +1,5 @@
 #include "./include/parser.h"
+#include "./include/shell.h"
 
 int main(int argc, char* argv[])
 {
@@ -19,6 +20,8 @@ int main(int argc, char* argv[])
 
     } else {
         // Open interpreter shell 
+        Shell shell { Shell() };
+        shell.run();
     }
 
     return 0;
