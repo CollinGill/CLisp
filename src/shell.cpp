@@ -17,7 +17,7 @@ void Shell::run()
         if ((input.compare("(exit)") == 0) || (input.compare("exit") == 0)) {
             running = false;
         } else {
-            parser.tokenize(input);
+            parser.parse(input);
             parser.print_tokens();
         }
     }

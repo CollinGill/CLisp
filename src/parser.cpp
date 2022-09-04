@@ -1,9 +1,16 @@
 #include "./include/parser.h"
 
-Parser::Parser()
+Parser::Parser() 
 {
+    ast = AST();
     token_list = std::vector<token::Token>();
     special_chars = {'(', ')', '+', '-', '*', '/', '%'};
+}
+
+void Parser::parse(std::string& file)
+{
+    tokenize(file);
+    ast.generate_tree(token_list);
 }
 
 std::string Parser::read_file(std::string& file_name)
