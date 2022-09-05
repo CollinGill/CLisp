@@ -8,17 +8,23 @@ namespace token
 {
     enum Type
     {
+        // Semantics
         LPAREN,
         RPAREN,
+        LIST,
+
+        // Data types
         STRING_LITERAL,
         INTEGER,
         FLOAT,
+        WORD,
+
+        // Operators
         PLUS,
         MINUS,
         MULTIPLY,
         DIVIDE,
-        MODULO,
-        WORD
+        MODULO
     };
 
     std::string readable_type(Type type);

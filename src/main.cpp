@@ -15,7 +15,6 @@ int main(int argc, char* argv[])
             Parser parser { Parser() };
             std::string file { parser.read_file(args[1]) };
             parser.parse(file);
-            parser.print_tokens();
         }
 
     } else {

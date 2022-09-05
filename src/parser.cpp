@@ -11,6 +11,8 @@ void Parser::parse(std::string& file)
 {
     tokenize(file);
     ast.generate_tree(token_list);
+    print_tokens();
+    ast.print();
 }
 
 std::string Parser::read_file(std::string& file_name)

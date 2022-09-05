@@ -8,47 +8,39 @@ std::string token::readable_type(Type type)
     {
         case LPAREN:
             return "LPAREN";
-            break;
 
         case RPAREN:
             return "RPAREN";
-            break;
+
+        case LIST:
+            return "LIST";
 
         case STRING_LITERAL:
             return "QUOTE";
-            break;
 
         case INTEGER:
             return "INTEGER";
-            break;
 
         case FLOAT:
             return "FLOAT";
-            break;
-
-        case PLUS:
-            return "PLUS";
-            break;
-
-        case MINUS:
-            return "MINUS";
-            break;
-
-        case MULTIPLY:
-            return "MULTIPLY";
-            break;
-
-        case DIVIDE:
-            return "DIVIDE";
-            break;
-
-        case MODULO:
-            return "MODULO";
-            break;
 
         case WORD:
             return "WORD";
-            break;
+
+        case PLUS:
+            return "PLUS";
+
+        case MINUS:
+            return "MINUS";
+
+        case MULTIPLY:
+            return "MULTIPLY";
+
+        case DIVIDE:
+            return "DIVIDE";
+
+        case MODULO:
+            return "MODULO";
 
         default:
             return "ERROR";

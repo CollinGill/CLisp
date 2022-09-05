@@ -1,33 +1,61 @@
 #include "./include/ast.h"
 
-node::Node* node::create_node(token::Token& tok)
+node::Node::Node(token::Token& tok):
+    tok(tok)
 {
-    Node* new_node = (Node*) malloc(sizeof(Node*));
-    new_node->tok = tok;
-    new_node->parent = nullptr;
-    new_node->children = std::vector<Node*>();
+    this->parent = nullptr;
+    this->children = std::vector<Node*>();
+}
+
+node::Node *node::create_node(token::Token &tok)
+{
+    Node* new_node = new Node(tok);
     return new_node;
+}
+
+void node::print_node(node::Node* n)
+{
+    n->tok.print();
 }
 
 AST::AST()
 {
-    operators = { token::PLUS, token::MINUS, token::MULTIPLY, token::DIVIDE, token::MODULO };
+    operators = {token::PLUS, token::MINUS, token::MULTIPLY, token::DIVIDE, token::MODULO};
 }
 
-void AST::generate_tree(std::vector<token::Token>& token_list)
+AST::~AST()
 {
-    node::Node* cur;
-    bool root_tok { false };
-    for (std::size_t i = 0; i < token_list.size(); i++) {
-        token::Token tok { token_list.at(i) };
-        if (!root_tok) {
-            if (tok.get_type() == token::LPAREN) {
-                continue;
-            } else if (operators.find(tok.get_type()) != operators.end()) {
-                root = node::create_node(tok);
-                root_tok = true;
-            }
+    // Go through tree and free the nodes
+}
+
+void AST::generate_tree(std::vector<token::Token> &token_list)
+{
+    node::Node* cur = root;
+
+    // Assuming the list starts with '('
+    token::Token first_tok = token::Token(token::LIST, "");
+    cur = node::create_node(first_tok);
+
+    for (std::size_t i = 1; i < token_list.size(); i++)
+    {
+        token::Token tok {token_list.at(i)};
+        cur->tok.print();
+        if (tok.get_type() == token::LPAREN) {
+            token::Token list_tok = token::Token(token::LIST, "");
+            cur = node::create_node(list_tok);
+        } else if (tok.get_type() == token::RPAREN){
+            cur = cur->parent;
         } else {
+            node::Node* tmp = node::create_node(tok);
+            tmp->parent = cur;
+            cur->children.push_back(tmp);
         }
     }
+    cur = nullptr;
+    free(cur);
+}
+
+void AST::print()
+{
+    node::print_node(root);
 }
