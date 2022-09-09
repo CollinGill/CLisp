@@ -141,7 +141,15 @@ void Parser::tokenize(std::string& file)
                 break;
 
             } else if ((last == ' ' || last == '\n' || last == '\t' || special_chars.find(last) != special_chars.end()) && !(in_quote)) {
-                token::Token tmp { token::Token(token::WORD, file.substr(i, (j-i))) };
+                std::string word_name = file.substr(i, (j-i));
+                token::Type tok_type = token::NONE;
+
+                if (is_int(word_name))
+                    tok_type = token::INTEGER;
+                else
+                    tok_type = token::WORD;
+
+                token::Token tmp { tok_type, word_name };
                 token_list.push_back(tmp);
 
                 // i = j - 1 so that the next loop starts on the character that broke the word
@@ -173,4 +181,18 @@ void Parser::print_tokens()
         token.print();
         std::cout << std::endl;
     }
+}
+    
+inline bool Parser::is_int(std::string &str)
+{
+    if (str.empty() || 
+        (((!std::isdigit(str[0]))) && 
+         (str[0] != '-') && 
+         (str[0] != '+')))
+
+        return false;
+    char *ptr;
+    std::strtol(str.c_str(), &ptr, 10);
+    
+    return *ptr == 0;
 }

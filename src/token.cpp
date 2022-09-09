@@ -71,5 +71,8 @@ void Token::set_val(std::string& val)
 
 void Token::print()
 {
-    std::cout << "[" << readable_type(type) << " | " << val << "]";
+    if (type == LIST)
+        std::cout << "[" << readable_type(type) << val << "]";
+    else
+        std::cout << "[" << readable_type(type) << " | " << val << "]";
 }

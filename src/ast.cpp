@@ -27,7 +27,15 @@ AST::AST()
 
 AST::~AST()
 {
-    // Go through tree and free the nodes
+    std::queue<node::Node*> bfs = std::queue<node::Node*>();
+    bfs.push(root);
+
+    while (!bfs.empty()) {
+        node::Node* cur = bfs.front();
+        bfs.pop();
+        for (auto child : cur->children)
+            bfs.push(child);
+    }
 }
 
 void AST::generate_tree(std::vector<token::Token> &token_list)
@@ -72,4 +80,5 @@ void AST::print()
         for (auto child : cur->children)
             bfs.push(child);
     }
+    std::cout << std::endl;
 }
