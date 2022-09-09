@@ -8,6 +8,8 @@ namespace token
 {
     enum Type
     {
+        NONE,
+
         // Semantics
         LPAREN,
         RPAREN,

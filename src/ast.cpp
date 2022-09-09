@@ -20,7 +20,9 @@ void node::print_node(node::Node* n)
 
 AST::AST()
 {
-    operators = {token::PLUS, token::MINUS, token::MULTIPLY, token::DIVIDE, token::MODULO};
+    operators = {token::Type::PLUS, token::Type::MINUS, token::Type::MULTIPLY, token::Type::DIVIDE, token::Type::MODULO};
+    token::Token null_tok = token::Token(token::Type::NONE, "");
+    root = node::create_node(null_tok);
 }
 
 AST::~AST()
@@ -30,25 +32,28 @@ AST::~AST()
 
 void AST::generate_tree(std::vector<token::Token> &token_list)
 {
-    node::Node* cur = root;
-
     // Assuming the list starts with '('
-    token::Token first_tok = token::Token(token::LIST, "");
-    cur = node::create_node(first_tok);
 
-    for (std::size_t i = 1; i < token_list.size(); i++)
-    {
+    node::Node* cur = root;
+    cur->tok = token::Token(token::Type::LIST, "");
+
+    for (std::size_t i = 1; i < token_list.size(); i++) {
         token::Token tok {token_list.at(i)};
-        cur->tok.print();
+        
         if (tok.get_type() == token::LPAREN) {
-            token::Token list_tok = token::Token(token::LIST, "");
-            cur = node::create_node(list_tok);
-        } else if (tok.get_type() == token::RPAREN){
+            token::Token list = token::Token(token::Type::LIST, "");
+            cur->children.push_back(node::create_node(list));
+            cur->children[cur->children.size() - 1]->parent = cur;
+            cur = cur->children[cur->children.size() - 1];
+
+        } else if (tok.get_type() == token::RPAREN) {
+            if (cur->parent == nullptr)
+                break;
             cur = cur->parent;
+
         } else {
-            node::Node* tmp = node::create_node(tok);
-            tmp->parent = cur;
-            cur->children.push_back(tmp);
+            cur->children.push_back(node::create_node(tok));
+            cur->children[cur->children.size() - 1]->parent = cur;
         }
     }
     cur = nullptr;

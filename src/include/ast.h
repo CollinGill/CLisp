@@ -9,10 +9,10 @@ namespace node
 {
     typedef struct Node
     {
-        Node(token::Token& tok);
+        Node(token::Token &tok);
 
         token::Token tok;
-        Node* parent;
+        Node *parent;
         std::vector<Node*> children;
     } Node;
 
@@ -26,7 +26,7 @@ public:
     AST();
     ~AST();
 
-    void generate_tree(std::vector<token::Token>& token_list);
+    void generate_tree(std::vector<token::Token> &token_list);
     void print();
 
 private:

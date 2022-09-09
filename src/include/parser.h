@@ -26,5 +26,4 @@ private:
     void tokenize(std::string& file);
     std::vector<Token> token_list;
     std::unordered_set<char> special_chars;
-
 };
