@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include "ast.h"
 #include "token.h"
@@ -28,4 +29,5 @@ private:
     std::unordered_set<char> special_chars;
 
     inline bool is_int(std::string &str);
+    inline bool is_float(std::string &str);
 };

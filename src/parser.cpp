@@ -146,6 +146,8 @@ void Parser::tokenize(std::string& file)
 
                 if (is_int(word_name))
                     tok_type = token::INTEGER;
+                else if (is_float(word_name))
+                    tok_type = token::FLOAT;
                 else
                     tok_type = token::WORD;
 
@@ -195,4 +197,11 @@ inline bool Parser::is_int(std::string &str)
     std::strtol(str.c_str(), &ptr, 10);
     
     return *ptr == 0;
+}
+
+inline bool Parser::is_float(std::string &str)
+{
+    char *end = nullptr;
+    std::strtod(str.c_str(), &end);
+    return end != str.c_str() && *end == '\0';
 }

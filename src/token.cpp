@@ -16,7 +16,7 @@ std::string token::readable_type(Type type)
             return "LIST";
 
         case STRING_LITERAL:
-            return "QUOTE";
+            return "STRING_LITERAL";
 
         case INTEGER:
             return "INTEGER";
