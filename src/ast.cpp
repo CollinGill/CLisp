@@ -62,5 +62,14 @@ void AST::generate_tree(std::vector<token::Token> &token_list)
 
 void AST::print()
 {
-    node::print_node(root);
+    std::queue<node::Node*> bfs = std::queue<node::Node*>();
+    bfs.push(root);
+
+    while (!bfs.empty()) {
+        node::Node* cur = bfs.front();
+        node::print_node(cur);
+        bfs.pop();
+        for (auto child : cur->children)
+            bfs.push(child);
+    }
 }

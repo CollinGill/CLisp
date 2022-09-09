@@ -10,8 +10,8 @@ Parser::Parser()
 void Parser::parse(std::string& file)
 {
     tokenize(file);
-    //print_tokens();
     ast.generate_tree(token_list);
+    ast.print();
 }
 
 std::string Parser::read_file(std::string& file_name)
