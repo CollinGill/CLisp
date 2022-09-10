@@ -47,7 +47,6 @@ void Parser::eval_ast(node::Node *rt)
     if (rt == nullptr)
         return;
 
-
     if (rt->tok.get_type() == token::LIST) {
         for (auto child : rt->children)
             eval_ast(child);
@@ -79,8 +78,9 @@ token::Token Parser::eval_list(std::vector<node::Node*> &children)
                 }
                 break;
             case token::MINUS:
-                for (auto child : children) {
-                    count -= std::stof(child->tok.get_val());
+                count = std::stof(children.at(0)->tok.get_val());
+                for (std::size_t i = 1; i < children.size(); i++) {
+                    count -= std::stof(children.at(i)->tok.get_val());
                 }
                 break;
             case token::MULTIPLY:
@@ -91,7 +91,7 @@ token::Token Parser::eval_list(std::vector<node::Node*> &children)
                 break;
             case token::DIVIDE:
                 count = std::stof(children.at(0)->tok.get_val());
-                for (std::size_t i = 0; i < children.size(); i++) {
+                for (std::size_t i = 1; i < children.size(); i++) {
                     count /= std::stof(children.at(i)->tok.get_val());
                 }
                 break;
