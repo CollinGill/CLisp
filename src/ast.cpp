@@ -45,7 +45,6 @@ node::Node* AST::get_root()
 void AST::generate_tree(std::vector<token::Token> &token_list)
 {
     // Assuming the list starts with '('
-
     node::Node* cur = root;
     cur->tok = token::Token(token::Type::LIST, "");
 

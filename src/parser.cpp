@@ -74,25 +74,37 @@ token::Token Parser::eval_list(std::vector<node::Node*> &children)
         {
             case token::PLUS:
                 for (auto child : children) {
-                    count += std::stof(child->tok.get_val());
+                    if (child->tok.get_val()[0] == '-')
+                        count += (-1 * std::stof(child->tok.get_val().substr(1)));
+                    else
+                        count += std::stof(child->tok.get_val());
                 }
                 break;
             case token::MINUS:
                 count = std::stof(children.at(0)->tok.get_val());
                 for (std::size_t i = 1; i < children.size(); i++) {
-                    count -= std::stof(children.at(i)->tok.get_val());
+                    if (children.at(0)->tok.get_val()[0] == '-')
+                        count -= -1 * std::stof(children.at(i)->tok.get_val().substr(1));
+                    else
+                        count -= std::stof(children.at(i)->tok.get_val());
                 }
                 break;
             case token::MULTIPLY:
                 count = 1;
                 for (auto child : children) {
-                    count *= std::stof(child->tok.get_val());
+                    if (child->tok.get_val()[0] == '-')
+                        count *= -1 * std::stof(child->tok.get_val().substr(1));
+                    else
+                        count *= std::stof(child->tok.get_val());
                 }
                 break;
             case token::DIVIDE:
                 count = std::stof(children.at(0)->tok.get_val());
                 for (std::size_t i = 1; i < children.size(); i++) {
-                    count /= std::stof(children.at(i)->tok.get_val());
+                    if (children.at(0)->tok.get_val()[0] == '-')
+                        count /= -1 * std::stof(children.at(i)->tok.get_val().substr(1));
+                    else
+                        count /= std::stof(children.at(i)->tok.get_val());
                 }
                 break;
             default:
@@ -153,6 +165,11 @@ void Parser::tokenize(std::string& file)
 
             case '-':
             {
+                if (i < file.size() - 1) {
+                    if (isdigit(file[i+1]))
+                        break;
+                }
+
                 token::Token tmp { token::Token(token::MINUS, std::string(1, first)) };
                 token_list.push_back(tmp);
                 continue;
@@ -209,16 +226,34 @@ void Parser::tokenize(std::string& file)
                 i = j;
                 break;
 
-            } else if ((last == ' ' || last == '\n' || last == '\t' || special_chars.find(last) != special_chars.end()) && !(in_quote)) {
+            } else if ((last == ' ' || last == '\n' || last == '\t' || special_chars.find(last) != special_chars.end()) && !(in_quote) && last != '-') {
                 std::string word_name = file.substr(i, (j-i));
                 token::Type tok_type = token::NONE;
 
-                if (is_int(word_name))
-                    tok_type = token::INTEGER;
-                else if (is_float(word_name))
-                    tok_type = token::FLOAT;
-                else
-                    tok_type = token::WORD;
+                bool is_negative = word_name[0] == '-';
+
+                if (is_negative) {
+                    std::string abs_word = word_name.substr(1);
+                    if (is_int(abs_word))
+                        tok_type = token::INTEGER;
+
+                    else if (is_float(abs_word))
+                        tok_type = token::FLOAT;
+
+                    else
+                        tok_type = token::WORD;
+
+                } else {
+                    if (is_int(word_name))
+                        tok_type = token::INTEGER;
+
+                    else if (is_float(word_name))
+                        tok_type = token::FLOAT;
+
+                    else
+                        tok_type = token::WORD;
+                }
+
 
                 token::Token tmp { tok_type, word_name };
                 token_list.push_back(tmp);
@@ -244,6 +279,11 @@ void Parser::tokenize(std::string& file)
 std::vector<token::Token> Parser::get_token_list()
 {
     return token_list;
+}
+
+void Parser::clear()
+{
+    token_list.clear();
 }
 
 void Parser::print_tokens()

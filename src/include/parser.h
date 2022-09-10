@@ -20,6 +20,7 @@ public:
     std::string read_file(std::string &file_name);
 
     std::vector<Token> get_token_list();
+    void clear();
     void print_tokens();
 
 private:
