@@ -1,7 +1,6 @@
 #pragma once
 
 #include <queue>
-#include <unordered_set>
 #include <vector>
 #include "token.h"
 
@@ -26,10 +25,11 @@ public:
     AST();
     ~AST();
 
+    node::Node* get_root();
+
     void generate_tree(std::vector<token::Token> &token_list);
     void print();
 
 private:
     node::Node* root;
-    std::unordered_set<token::Type> operators;
 };

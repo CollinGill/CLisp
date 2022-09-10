@@ -18,7 +18,6 @@ void Shell::run()
             running = false;
         } else {
             parser.parse(input);
-            parser.print_tokens();
         }
     }
 }

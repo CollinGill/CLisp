@@ -1,11 +1,15 @@
 #include "./include/token.h"
 
 using namespace token;
+    
 
 std::string token::readable_type(Type type)
 {
     switch (type)
     {
+        case NONE:
+            return "NONE";
+
         case LPAREN:
             return "LPAREN";
 
@@ -57,6 +61,11 @@ Token::Token(Type type, std::string val)
 Type Token::get_type()
 {
     return type;
+}
+
+std::string Token::get_val()
+{
+    return val;
 }
 
 void Token::set_type(Type type)

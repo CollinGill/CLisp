@@ -11,7 +11,12 @@ void Parser::parse(std::string& file)
 {
     tokenize(file);
     ast.generate_tree(token_list);
-    ast.print();
+}
+
+void Parser::evaluate()
+{
+    eval_ast(ast.get_root());
+    std::cout << ast.get_root()->tok.get_val() << std::endl;
 }
 
 std::string Parser::read_file(std::string& file_name)
@@ -35,6 +40,70 @@ std::string Parser::read_file(std::string& file_name)
         std::cout << "ERROR: Unable to open file `" << file_name << "`\n\n";
         assert(false);
     }
+}
+
+void Parser::eval_ast(node::Node *rt)
+{
+    if (rt == nullptr)
+        return;
+
+
+    if (rt->tok.get_type() == token::LIST) {
+        for (auto child : rt->children)
+            eval_ast(child);
+        
+        rt->tok = eval_list(rt->children);
+
+    } else {
+        return;
+    }
+}
+
+token::Token Parser::eval_list(std::vector<node::Node*> &children)
+{
+    token::Token ret_tok { token::Token(token::NONE, "") };
+    if (children.empty())
+        return ret_tok;
+
+    token::Token func_tok { children.at(0)->tok };
+    children = std::vector<node::Node*>(children.begin() + 1, children.end());
+
+    // The function is a math operator
+    if (token::operators.find(func_tok.get_type()) != token::operators.end()) {
+        float count = 0;
+        switch (func_tok.get_type())
+        {
+            case token::PLUS:
+                for (auto child : children) {
+                    count += std::stof(child->tok.get_val());
+                }
+                break;
+            case token::MINUS:
+                for (auto child : children) {
+                    count -= std::stof(child->tok.get_val());
+                }
+                break;
+            case token::MULTIPLY:
+                count = 1;
+                for (auto child : children) {
+                    count *= std::stof(child->tok.get_val());
+                }
+                break;
+            case token::DIVIDE:
+                count = std::stof(children.at(0)->tok.get_val());
+                for (std::size_t i = 0; i < children.size(); i++) {
+                    count /= std::stof(children.at(i)->tok.get_val());
+                }
+                break;
+            default:
+                break;
+        }
+        bool is_flt { count - (int)count > 0 };
+        ret_tok.set_type((is_flt) ? token::FLOAT : token::INTEGER);
+        std::string new_val = (is_flt) ? std::to_string(count) : std::to_string((int)count);
+        ret_tok.set_val(new_val);
+    }
+    return ret_tok;
 }
 
 void Parser::tokenize(std::string& file)

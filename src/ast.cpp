@@ -20,7 +20,6 @@ void node::print_node(node::Node* n)
 
 AST::AST()
 {
-    operators = {token::Type::PLUS, token::Type::MINUS, token::Type::MULTIPLY, token::Type::DIVIDE, token::Type::MODULO};
     token::Token null_tok = token::Token(token::Type::NONE, "");
     root = node::create_node(null_tok);
 }
@@ -36,6 +35,11 @@ AST::~AST()
         for (auto child : cur->children)
             bfs.push(child);
     }
+}
+
+node::Node* AST::get_root()
+{
+    return root;
 }
 
 void AST::generate_tree(std::vector<token::Token> &token_list)
